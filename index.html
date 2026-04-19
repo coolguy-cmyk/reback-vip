@@ -1,120 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>rEBACK VIP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:#000;color:#e0e0e0;font-family:'Rajdhani',sans-serif;}
-    .scanline{background:#000;background-image:repeating-linear-gradient(0deg,rgba(0,255,100,0.012) 0px,rgba(0,255,100,0.012) 1px,transparent 1px,transparent 3px);}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>rEBACK VIP</title>
 
-    #mainPage{display:block;}
-    .hero{text-align:center;padding:3rem 2rem 2.5rem;border-bottom:1px solid rgba(0,255,100,0.18);background:radial-gradient(ellipse at 50% 0%,rgba(0,255,100,0.07) 0%,transparent 70%);}
-    .title{font-size:52px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:8px;}
-    .title .green{color:#0f6;text-shadow:0 0 20px rgba(0,255,100,0.4);}
-    .crown{font-size:32px;display:block;margin-bottom:6px;filter:drop-shadow(0 0 8px rgba(255,200,0,0.5));}
-    .subtitle{font-size:13px;letter-spacing:4px;color:rgba(0,255,100,0.5);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-top:10px;}
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
 
-    .access-box{background:#050f09;border:1px solid rgba(0,255,100,0.3);border-radius:4px;padding:1.5rem;text-align:center;margin:2rem;position:relative;}
-    .cta-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#0f6;padding:10px 28px;border-radius:3px;cursor:pointer;text-decoration:none;}
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#000;
+  color:#e0e0e0;
+  font-family:'Rajdhani',sans-serif;
+}
 
-    #redeemScreen,#successScreen{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
-    #redeemScreen.active,#successScreen.active{display:flex;}
+.scanline{
+  background:#000;
+  background-image:repeating-linear-gradient(
+    0deg,
+    rgba(0,255,100,0.012) 0px,
+    rgba(0,255,100,0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
 
-    .redeem-box{background:#050f09;border:1px solid rgba(0,255,100,0.25);border-radius:4px;padding:2rem;width:100%;max-width:420px;}
-    .key-input{width:100%;background:#000;border:1px solid rgba(0,255,100,0.25);padding:10px;color:#0f6;text-align:center;}
-    .submit-btn{width:100%;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#0f6;padding:10px;cursor:pointer;margin-top:10px;}
-    .back-btn{background:none;border:none;color:rgba(0,255,100,0.4);margin-top:10px;cursor:pointer;}
+/* HERO */
+.hero{
+  text-align:center;
+  padding:3rem 2rem;
+  border-bottom:1px solid rgba(0,255,100,0.18);
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,255,100,0.07),transparent 70%);
+}
 
-    .msg-error{display:none;color:#f44;font-size:12px;margin-top:10px;}
-    .msg-error.show{display:block;}
-  </style>
+.title{
+  font-size:52px;
+  font-weight:700;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.green{color:#0f6;text-shadow:0 0 20px rgba(0,255,100,0.4);}
+.crown{font-size:34px;display:block;margin-bottom:10px;}
+.subtitle{
+  font-family:'Share Tech Mono';
+  font-size:12px;
+  letter-spacing:4px;
+  color:rgba(0,255,100,0.5);
+  margin-top:10px;
+}
+
+/* BOX */
+.box{
+  margin:2rem auto;
+  width:90%;
+  max-width:420px;
+  background:#050f09;
+  border:1px solid rgba(0,255,100,0.25);
+  padding:2rem;
+  border-radius:5px;
+  text-align:center;
+}
+
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  background:#000;
+  border:1px solid rgba(0,255,100,0.25);
+  color:#0f6;
+  text-align:center;
+  font-family:'Share Tech Mono';
+  outline:none;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  background:rgba(0,255,100,0.1);
+  border:1px solid rgba(0,255,100,0.5);
+  color:#0f6;
+  font-weight:700;
+  letter-spacing:3px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:rgba(0,255,100,0.18);
+}
+
+.error{
+  display:none;
+  color:#ff4d4d;
+  margin-top:10px;
+  font-family:'Share Tech Mono';
+  font-size:12px;
+}
+.show{display:block;}
+</style>
 </head>
 
 <body class="scanline">
 
-<!-- MAIN -->
-<div id="mainPage">
-  <div class="hero">
-    <span class="crown">👑</span>
-    <div class="title"><span class="green">r</span><span class="green">E</span>BACK VIP</div>
-    <div class="subtitle">exclusive access program</div>
-  </div>
-
-  <div class="access-box">
-    <a class="cta-btn" href="#" onclick="handleGetVIP(event)">🔑 get vip access</a>
-  </div>
+<div class="hero">
+  <span class="crown">👑</span>
+  <div class="title"><span class="green">r</span><span class="green">E</span>BACK VIP</div>
+  <div class="subtitle">exclusive access system</div>
 </div>
 
-<!-- REDEEM -->
-<div id="redeemScreen" class="scanline">
-  <div class="redeem-box">
-    <h2 style="color:#fff;margin-bottom:10px;">Enter VIP Key</h2>
-
-    <input class="key-input" id="keyInput" placeholder="reback-xxxxxx" />
-
-    <button class="submit-btn" onclick="checkKey()" id="submitBtn">
-      Unlock VIP
-    </button>
-
-    <div class="msg-error" id="errMsg">Invalid key</div>
-
-    <button class="back-btn" onclick="goBack()">← back</button>
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="successScreen" class="scanline">
-  <div style="font-size:50px;">✅</div>
-  <h1 style="color:#fff;">VIP UNLOCKED</h1>
-  <p style="color:rgba(0,255,100,0.5)">Welcome to VIP</p>
+<div class="box">
+  <input id="keyInput" placeholder="reback-xxxxxxx" />
+  <button onclick="checkKey()" id="btn">UNLOCK VIP</button>
+  <div class="error" id="err">Invalid key or server offline</div>
 </div>
 
 <script>
-  const API_BASE = "https://YOUR-BOT-URL.replit.app"; // change this
+const API_BASE = "https://YOUR-REPLIT-APP.replit.app"; // FIX THIS
 
-  function handleGetVIP(e) {
-    e.preventDefault();
-    window.open("https://www.roblox.com/game-pass/1760727863/Get-VIP", "_blank");
+async function checkKey(){
+  const key = document.getElementById("keyInput").value.trim();
+  const err = document.getElementById("err");
+  const btn = document.getElementById("btn");
 
-    document.getElementById("mainPage").style.display = "none";
-    document.getElementById("redeemScreen").classList.add("active");
-  }
+  if(!key) return;
 
-  function goBack() {
-    document.getElementById("redeemScreen").classList.remove("active");
-    document.getElementById("mainPage").style.display = "block";
-  }
+  btn.textContent = "CHECKING...";
 
-  async function checkKey() {
-    const key = document.getElementById("keyInput").value.trim();
-    const err = document.getElementById("errMsg");
+  try {
+    const res = await fetch(`${API_BASE}/verify`, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ key })
+    });
 
-    if (!key) return;
+    const data = await res.json();
 
-    try {
-      const res = await fetch(`${API_BASE}/verify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key })
-      });
-
-      const data = await res.json();
-
-      if (data.valid) {
-        document.getElementById("redeemScreen").classList.remove("active");
-        document.getElementById("successScreen").classList.add("active");
-      } else {
-        err.classList.add("show");
-      }
-
-    } catch (e) {
-      err.textContent = "Server error";
+    if(data.valid){
+      alert("VIP UNLOCKED 👑");
+    } else {
       err.classList.add("show");
     }
+
+  } catch(e){
+    err.textContent = "Server offline / wrong URL";
+    err.classList.add("show");
   }
+
+  btn.textContent = "UNLOCK VIP";
+}
 </script>
 
 </body>

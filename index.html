@@ -111,9 +111,11 @@
 <div id="redeemScreen" class="scanline">
   <div class="redeem-crown">👑</div>
   <div class="redeem-title"><span class="green">r</span><span style="color:#0f6">E</span>BACK VIP</div>
-  <div class="redeem-sub">purchase complete? enter your key below</div>
+  <div class="redeem-sub">purchase complete? enter your details below</div>
   <div class="redeem-box">
-    <div class="redeem-label">redeem your vip key</div>
+    <div class="redeem-label">your discord user id</div>
+    <input class="key-input" id="discordInput" type="text" placeholder="e.g. 123456789012345678" />
+    <div class="redeem-label" style="margin-top:8px;">your vip key</div>
     <input class="key-input" id="keyInput" type="text" placeholder="reback-xxxxxxxxxxxx" />
     <button class="submit-btn" id="submitBtn" onclick="checkKey()">🔓 &nbsp;Unlock VIP</button>
     <div class="msg-error" id="errMsg">⚠ invalid or already used key</div>
@@ -125,7 +127,7 @@
 <div id="successScreen" class="scanline">
   <div class="success-icon">✅</div>
   <div class="success-title"><span style="color:#0f6">r</span><span style="color:#0f6">E</span>BACK VIP</div>
-  <div class="success-sub">key accepted — welcome to vip 👑</div>
+  <div class="success-sub">key accepted — vip role assigned 👑</div>
   <button class="view-btn" onclick="showMain()">🔑 &nbsp;View VIP Page</button>
 </div>
 
@@ -137,7 +139,7 @@
     window.open("https://www.roblox.com/game-pass/1760727863/Get-VIP", "_blank");
     document.getElementById("mainPage").style.display = "none";
     document.getElementById("redeemScreen").classList.add("active");
-    setTimeout(() => document.getElementById("keyInput").focus(), 100);
+    setTimeout(() => document.getElementById("discordInput").focus(), 100);
   }
 
   function goBack() {
@@ -145,21 +147,30 @@
     document.getElementById("mainPage").style.display = "block";
     document.getElementById("errMsg").classList.remove("show");
     document.getElementById("keyInput").value = "";
+    document.getElementById("discordInput").value = "";
   }
 
   async function checkKey() {
     const key = document.getElementById("keyInput").value.trim();
+    const discordId = document.getElementById("discordInput").value.trim();
     const btn = document.getElementById("submitBtn");
     const err = document.getElementById("errMsg");
-    if (!key) return;
+
+    if (!key || !discordId) {
+      err.textContent = "⚠ enter both your discord id and key";
+      err.classList.add("show");
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = "Checking...";
     err.classList.remove("show");
+
     try {
       const res = await fetch(`${API_BASE}/redeem`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key }),
+        body: JSON.stringify({ key, discordId }),
       });
       const data = await res.json();
       if (data.success) {
@@ -177,6 +188,7 @@
       err.textContent = "⚠ could not connect to server — try again";
       err.classList.add("show");
     }
+
     btn.disabled = false;
     btn.textContent = "🔓 Unlock VIP";
   }

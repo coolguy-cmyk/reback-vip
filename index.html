@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>rEBACK VIP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#000;color:#e0e0e0;font-family:'Rajdhani',sans-serif;}
+    .scanline{background:#000;background-image:repeating-linear-gradient(0deg,rgba(0,255,100,0.012) 0px,rgba(0,255,100,0.012) 1px,transparent 1px,transparent 3px);}
+    #mainPage{display:block;}
+    .hero{text-align:center;padding:3rem 2rem 2.5rem;border-bottom:1px solid rgba(0,255,100,0.18);background:radial-gradient(ellipse at 50% 0%,rgba(0,255,100,0.07) 0%,transparent 70%);}
+    .title{font-size:52px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:8px;}
+    .title .green{color:#0f6;text-shadow:0 0 20px rgba(0,255,100,0.4);}
+    .crown{font-size:32px;display:block;margin-bottom:6px;filter:drop-shadow(0 0 8px rgba(255,200,0,0.5));}
+    .subtitle{font-size:13px;letter-spacing:4px;color:rgba(0,255,100,0.5);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-top:10px;}
+    .divider{display:flex;align-items:center;gap:12px;padding:0 2rem;margin:2rem 0;}
+    .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.25),transparent);}
+    .divider-icon{font-size:10px;color:rgba(0,255,100,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+    .section{padding:0 2rem 2rem;}
+    .section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,255,100,0.45);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+    .section-label::after{content:'';flex:1;height:1px;background:rgba(0,255,100,0.12);}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+    .card{background:#0a0a0a;border:1px solid rgba(0,255,100,0.15);border-radius:4px;padding:1.2rem 1rem;position:relative;overflow:hidden;}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,100,0.5),transparent);}
+    .card-icon{font-size:18px;margin-bottom:8px;display:block;}
+    .card-title{font-size:15px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;}
+    .card-desc{font-size:12px;color:rgba(200,200,200,0.55);margin-top:4px;line-height:1.5;font-family:'Share Tech Mono',monospace;}
+    .access-box{background:#050f09;border:1px solid rgba(0,255,100,0.3);border-radius:4px;padding:1.5rem;text-align:center;margin:0 2rem 2rem;position:relative;overflow:hidden;}
+    .access-box::before{content:'ACCESS GRANTED';position:absolute;top:8px;right:12px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(0,255,100,0.2);}
+    .price-label{font-size:11px;letter-spacing:3px;color:rgba(0,255,100,0.45);font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-bottom:8px;}
+    .price-box{display:inline-block;font-size:13px;font-weight:700;letter-spacing:2px;color:rgba(255,200,0,0.9);background:rgba(255,200,0,0.06);border:1px solid rgba(255,200,0,0.2);border-radius:3px;padding:4px 14px;margin-bottom:16px;font-family:'Share Tech Mono',monospace;text-transform:uppercase;}
+    .cta-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#0f6;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:4px;text-transform:uppercase;padding:10px 28px;border-radius:3px;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+    .cta-btn:hover{background:rgba(0,255,100,0.18);border-color:rgba(0,255,100,0.8);}
+    .terminal{background:#050f09;border:1px solid rgba(0,255,100,0.12);border-radius:4px;padding:1rem 1.25rem;margin:0 2rem 2rem;font-family:'Share Tech Mono',monospace;font-size:11px;line-height:1.9;color:rgba(0,255,100,0.5);}
+    .t-green{color:rgba(0,255,100,0.8);}
+    .t-white{color:rgba(255,255,255,0.6);}
+    .t-dim{color:rgba(0,255,100,0.25);}
+    .footer{text-align:center;padding:1.5rem 2rem;border-top:1px solid rgba(0,255,100,0.1);font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,255,100,0.2);letter-spacing:2px;}
+    #redeemScreen{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;}
+    #redeemScreen.active{display:flex;}
+    .redeem-crown{font-size:40px;margin-bottom:1rem;filter:drop-shadow(0 0 10px rgba(255,200,0,0.5));}
+    .redeem-title{font-size:32px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#fff;margin-bottom:6px;}
+    .redeem-sub{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(0,255,100,0.4);margin-bottom:2rem;}
+    .redeem-box{background:#050f09;border:1px solid rgba(0,255,100,0.25);border-radius:4px;padding:2rem;width:100%;max-width:420px;}
+    .redeem-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,255,100,0.45);text-transform:uppercase;margin-bottom:12px;}
+    .key-input{width:100%;background:#000;border:1px solid rgba(0,255,100,0.25);border-radius:3px;padding:10px 14px;font-family:'Share Tech Mono',monospace;font-size:12px;color:#0f6;letter-spacing:1px;outline:none;text-align:center;margin-bottom:12px;}
+    .key-input:focus{border-color:rgba(0,255,100,0.6);}
+    .key-input::placeholder{color:rgba(0,255,100,0.2);}
+    .submit-btn{width:100%;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#0f6;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:4px;text-transform:uppercase;padding:10px;border-radius:3px;cursor:pointer;transition:all 0.2s;margin-bottom:10px;}
+    .submit-btn:hover{background:rgba(0,255,100,0.18);}
+    .submit-btn:disabled{opacity:0.4;cursor:not-allowed;}
+    .back-btn{background:none;border:none;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(0,255,100,0.25);cursor:pointer;text-transform:uppercase;margin-top:4px;}
+    .back-btn:hover{color:rgba(0,255,100,0.5);}
+    .msg-error{font-family:'Share Tech Mono',monospace;font-size:11px;color:#f44;letter-spacing:2px;margin-top:8px;display:none;}
+    .msg-error.show{display:block;}
+    #successScreen{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:2rem;}
+    #successScreen.active{display:flex;}
+    .success-icon{font-size:56px;margin-bottom:1rem;}
+    .success-title{font-size:30px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#fff;margin-bottom:8px;}
+    .success-sub{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(0,255,100,0.4);margin-bottom:2rem;}
+    .view-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,100,0.1);border:1px solid rgba(0,255,100,0.5);color:#0f6;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:4px;text-transform:uppercase;padding:12px 32px;border-radius:3px;cursor:pointer;transition:all 0.2s;}
+    .view-btn:hover{background:rgba(0,255,100,0.18);}
+  </style>
+</head>
+<body class="scanline">
+
+<div id="mainPage">
+  <div class="hero">
+    <span class="crown">👑</span>
+    <div class="title"><span class="green">r</span><span class="green">E</span>BACK VIP</div>
+    <div class="subtitle">exclusive access program</div>
+  </div>
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">// features //</div><div class="divider-line"></div></div>
+  <div class="section">
+    <div class="section-label">what you get</div>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">⚙</span>
+        <div class="card-title">Exclusive .exe Files</div>
+        <div class="card-desc">premium tools only available to VIP members</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔒</span>
+        <div class="card-title">VIP Channel</div>
+        <div class="card-desc">private discord access & direct support</div>
+      </div>
+    </div>
+  </div>
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">// access //</div><div class="divider-line"></div></div>
+  <div class="access-box">
+    <div class="price-label">vip membership</div>
+    <div class="price-box">purchase to unlock</div>
+    <br>
+    <a class="cta-btn" href="#" onclick="handleGetVIP(event)">🔑 get vip access</a>
+  </div>
+  <div class="divider"><div class="divider-line"></div><div class="divider-icon">// after purchasing //</div><div class="divider-line"></div></div>
+  <div class="section">
+    <div class="terminal">
+      <span class="t-dim">$</span> <span class="t-green">step 1 </span><span class="t-white">— Purchase VIP access via the button above.</span><br>
+      <span class="t-dim">$</span> <span class="t-green">step 2 </span><span class="t-white">— Go to the #get▪️vip👑 channel and create a ticket.</span><br>
+      <span class="t-dim">$</span> <span class="t-green">step 3 </span><span class="t-white">— Send proof of purchase in the ticket.</span><br>
+      <span class="t-dim">$</span> <span class="t-green">step 4 </span><span class="t-white">— Wait until staff reviews your proof.</span><br>
+      <span class="t-dim">$</span> <span class="t-green">done   </span><span class="t-white">— Enjoy VIP 👑</span>
+    </div>
+  </div>
+  <div class="footer">rEBACK VIP &nbsp;|&nbsp; all rights reserved &nbsp;|&nbsp; unauthorized distribution prohibited</div>
+</div>
+
+<div id="redeemScreen" class="scanline">
+  <div class="redeem-crown">👑</div>
+  <div class="redeem-title"><span class="green">r</span><span style="color:#0f6">E</span>BACK VIP</div>
+  <div class="redeem-sub">purchase complete? enter your key below</div>
+  <div class="redeem-box">
+    <div class="redeem-label">redeem your vip key</div>
+    <input class="key-input" id="keyInput" type="text" placeholder="reback-xxxxxxxxxxxx" />
+    <button class="submit-btn" id="submitBtn" onclick="checkKey()">🔓 &nbsp;Unlock VIP</button>
+    <div class="msg-error" id="errMsg">⚠ invalid or already used key</div>
+    <br>
+    <button class="back-btn" onclick="goBack()">← go back</button>
+  </div>
+</div>
+
+<div id="successScreen" class="scanline">
+  <div class="success-icon">✅</div>
+  <div class="success-title"><span style="color:#0f6">r</span><span style="color:#0f6">E</span>BACK VIP</div>
+  <div class="success-sub">key accepted — welcome to vip 👑</div>
+  <button class="view-btn" onclick="showMain()">🔑 &nbsp;View VIP Page</button>
+</div>
+
+<script>
+  const API_BASE = "https://bot-host--iunno.replit.app";
+
+  function handleGetVIP(e) {
+    e.preventDefault();
+    window.open("https://www.roblox.com/game-pass/1760727863/Get-VIP", "_blank");
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("redeemScreen").classList.add("active");
+    setTimeout(() => document.getElementById("keyInput").focus(), 100);
+  }
+
+  function goBack() {
+    document.getElementById("redeemScreen").classList.remove("active");
+    document.getElementById("mainPage").style.display = "block";
+    document.getElementById("errMsg").classList.remove("show");
+    document.getElementById("keyInput").value = "";
+  }
+
+  async function checkKey() {
+    const key = document.getElementById("keyInput").value.trim();
+    const btn = document.getElementById("submitBtn");
+    const err = document.getElementById("errMsg");
+    if (!key) return;
+    btn.disabled = true;
+    btn.textContent = "Checking...";
+    err.classList.remove("show");
+    try {
+      const res = await fetch(`${API_BASE}/redeem`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById("redeemScreen").classList.remove("active");
+        document.getElementById("successScreen").classList.add("active");
+      } else {
+        err.textContent = data.message || "⚠ invalid or already used key";
+        err.classList.add("show");
+        document.getElementById("keyInput").style.borderColor = "rgba(255,60,60,0.5)";
+        setTimeout(() => {
+          document.getElementById("keyInput").style.borderColor = "rgba(0,255,100,0.25)";
+        }, 1000);
+      }
+    } catch (e) {
+      err.textContent = "⚠ could not connect to server — try again";
+      err.classList.add("show");
+    }
+    btn.disabled = false;
+    btn.textContent = "🔓 Unlock VIP";
+  }
+
+  function showMain() {
+    document.getElementById("successScreen").classList.remove("active");
+    document.getElementById("mainPage").style.display = "block";
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && document.getElementById("redeemScreen").classList.contains("active")) {
+      checkKey();
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,170 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>rEBACK VIP</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
-
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:#000;color:#e0e0e0;font-family:'Rajdhani',sans-serif;}
-
-    .scanline{background:#000;background-image:repeating-linear-gradient(0deg,rgba(0,255,100,0.012) 0px,rgba(0,255,100,0.012) 1px,transparent 1px,transparent 3px);}
-
-    #mainPage{display:block;}
-
-    .hero{text-align:center;padding:3rem 2rem 2.5rem;border-bottom:1px solid rgba(0,255,100,0.18);
-    background:radial-gradient(ellipse at 50% 0%,rgba(0,255,100,0.07) 0%,transparent 70%);}
-
-    .title{font-size:52px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#fff;}
-    .green{color:#0f6;text-shadow:0 0 20px rgba(0,255,100,0.4);}
-
-    .crown{font-size:32px;display:block;margin-bottom:6px;}
-
-    .subtitle{font-size:13px;letter-spacing:4px;color:rgba(0,255,100,0.5);
-    font-family:'Share Tech Mono',monospace;}
-
-    .access-box{margin:2rem;padding:1.5rem;border:1px solid rgba(0,255,100,0.3);
-    background:#050f09;text-align:center;border-radius:4px;}
-
-    .price-box{color:#ffcc66;font-family:'Share Tech Mono';margin:10px 0;}
-
-    .cta-btn{display:inline-block;padding:10px 25px;border:1px solid #0f6;
-    color:#0f6;background:rgba(0,255,100,0.1);cursor:pointer;text-decoration:none;}
-
-    /* KEY SCREEN */
-    #redeemScreen{
-      display:none;
-      min-height:100vh;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      text-align:center;
-    }
-
-    #redeemScreen.active{display:flex;}
-
-    .box{
-      padding:2rem;
-      border:1px solid rgba(0,255,100,0.3);
-      background:#050f09;
-      width:320px;
-    }
-
-    input{
-      width:100%;
-      padding:10px;
-      margin:10px 0;
-      background:black;
-      border:1px solid rgba(0,255,100,0.3);
-      color:#0f6;
-      text-align:center;
-    }
-
-    button{
-      width:100%;
-      padding:10px;
-      background:rgba(0,255,100,0.1);
-      border:1px solid #0f6;
-      color:#0f6;
-      cursor:pointer;
-    }
-
-    .error{
-      display:none;
-      color:#f44;
-      font-size:12px;
-      margin-top:10px;
-      font-family:'Share Tech Mono';
-    }
-
-    .error.show{display:block;}
-
-    /* SUCCESS */
-    #successScreen{
-      display:none;
-      min-height:100vh;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      text-align:center;
-    }
-
-    #successScreen.active{display:flex;}
-  </style>
-</head>
-
-<body class="scanline">
-
-<!-- MAIN -->
-<div id="mainPage">
-  <div class="hero">
-    <span class="crown">👑</span>
-    <div class="title"><span class="green">rE</span>BACK VIP</div>
-    <div class="subtitle">exclusive access</div>
-  </div>
-
-  <div class="access-box">
-    <div class="price-box">VIP ACCESS REQUIRED</div>
-    <a class="cta-btn" onclick="openRedeem()">🔑 GET ACCESS</a>
-  </div>
-</div>
-
-<!-- REDEEM -->
-<div id="redeemScreen" class="scanline">
-  <div class="box">
-    <h3 style="color:#0f6;">Enter VIP Key</h3>
-
-    <input id="keyInput" placeholder="reback-xxxxxxxx"/>
-
-    <button onclick="checkKey()">Unlock VIP</button>
-
-    <div class="error" id="err">Invalid key</div>
-
-    <button onclick="back()">← back</button>
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="successScreen">
-  <h1 style="color:#0f6;">ACCESS GRANTED 👑</h1>
-</div>
-
 <script>
-const API = "https://YOUR-REPLIT-URL.replit.app"; // change this
+  const API_BASE = "https://bot-host--iunno.replit.app"; // your bot
 
-function openRedeem(){
-  document.getElementById("mainPage").style.display="none";
-  document.getElementById("redeemScreen").classList.add("active");
-}
+  function handleGetVIP(e) {
+    e.preventDefault();
+    window.open("https://www.roblox.com/game-pass/1760727863/Get-VIP", "_blank");
 
-function back(){
-  document.getElementById("redeemScreen").classList.remove("active");
-  document.getElementById("mainPage").style.display="block";
-  document.getElementById("err").classList.remove("show");
-}
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("redeemScreen").classList.add("active");
 
-async function checkKey(){
-  const key = document.getElementById("keyInput").value;
-
-  const res = await fetch(`${API}/verify`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ key })
-  });
-
-  const data = await res.json();
-
-  if(data.valid){
-    document.getElementById("redeemScreen").classList.remove("active");
-    document.getElementById("successScreen").classList.add("active");
-  } else {
-    document.getElementById("err").classList.add("show");
+    setTimeout(() => document.getElementById("keyInput").focus(), 100);
   }
-}
-</script>
 
-</body>
-</html>
+  function goBack() {
+    document.getElementById("redeemScreen").classList.remove("active");
+    document.getElementById("mainPage").style.display = "block";
+
+    document.getElementById("errMsg").classList.remove("show");
+    document.getElementById("keyInput").value = "";
+  }
+
+  async function checkKey() {
+    const key = document.getElementById("keyInput").value.trim();
+
+    const btn = document.getElementById("submitBtn");
+    const err = document.getElementById("errMsg");
+
+    if (!key) return;
+
+    btn.disabled = true;
+    btn.textContent = "Checking...";
+    err.classList.remove("show");
+
+    try {
+      const res = await fetch(`${API_BASE}/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key })
+      });
+
+      const data = await res.json();
+
+      if (data.valid) {
+        document.getElementById("redeemScreen").classList.remove("active");
+        document.getElementById("successScreen").classList.add("active");
+      } else {
+        err.textContent = "❌ invalid VIP key";
+        err.classList.add("show");
+      }
+
+    } catch (e) {
+      err.textContent = "⚠ server offline / bot not responding";
+      err.classList.add("show");
+    }
+
+    btn.disabled = false;
+    btn.textContent = "🔓 Unlock VIP";
+  }
+
+  function showMain() {
+    document.getElementById("successScreen").classList.remove("active");
+    document.getElementById("mainPage").style.display = "block";
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" &&
+        document.getElementById("redeemScreen").classList.contains("active")) {
+      checkKey();
+    }
+  });
+</script>
